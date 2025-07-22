@@ -44,7 +44,9 @@ describe CaesarBreaker do
     # Located inside #decrypt (Public Script Method)
 
     # Method with Outgoing Command -> Test that a message is sent
-    xit 'sends translate 26 times' do
+    it 'sends translate 26 times' do
+      expect(translator).to receive(:translate).exactly(26).times
+      subject.create_decrypted_messages
     end
   end
 
@@ -79,13 +81,19 @@ describe CaesarBreaker do
       # ASSIGNMENT #2
       # Write the following 3 tests:
 
-      xit 'sends message to check the existence of the 16_cipher directory' do
+      it 'sends message to check the existence of the 16_cipher directory' do
+        expect(Dir).to receive(:exist?)
+        subject.save_decrypted_messages
       end
 
-      xit 'sends message to create a directory' do
+      it 'sends message to create a directory' do
+        expect(Dir).to receive(:mkdir)
+        subject.save_decrypted_messages
       end
 
-      xit 'sends message to create a file' do
+      it 'sends message to create a file' do
+        expect(File).to receive(:open)
+        subject.save_decrypted_messages
       end
     end
 
@@ -95,15 +103,24 @@ describe CaesarBreaker do
     # Method with Outgoing Commands -> Test that the messages are sent
     context 'when the directory exists' do
       before do
+        allow(Dir).to receive(:exist?).and_return(true)
+        allow(File).to receive(:open)
+        allow(subject).to receive(:puts)
       end
 
-      xit 'sends message to check the existence of the 16_cipher directory' do
+      it 'sends message to check the existence of the 16_cipher directory' do
+        expect(Dir).to receive(:exist?)
+        subject.save_decrypted_messages
       end
 
-      xit 'does not send message to create a directory' do
+      it 'does not send message to create a directory' do
+        expect(Dir).not_to receive(:mkdir)
+        subject.save_decrypted_messages
       end
 
-      xit 'sends message to create a file' do
+      it 'sends message to create a file' do
+        expect(File).to receive(:open)
+        subject.save_decrypted_messages
       end
     end
 
@@ -157,7 +174,9 @@ describe CaesarBreaker do
   describe '#save_to_yaml' do
     # Method with Outgoing Command -> Test that a message is sent
 
-    xit 'dumps to yaml' do
+    it 'dumps to yaml' do
+      expect(YAML).to receive(:dump)
+      subject.save_to_yaml
     end
   end
 end
