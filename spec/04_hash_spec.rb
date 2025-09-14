@@ -55,7 +55,7 @@ describe Hash do
   # remove the 'x' before running this test
   it 'is newer than 2015' do
     # Write a test that verifies the above statement.
-    expect(subject[:year]).to be> 2015
+    expect(subject[:year]).to be > 2015
   end
 
   # remove the 'x' before running this test
